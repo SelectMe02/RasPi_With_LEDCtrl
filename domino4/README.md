@@ -3,6 +3,8 @@
 본 스크립트는 Raspberry Pi의 GPIO 핀을 제어하여 LED를 도미노처럼 순차적으로 점등하는 과제입니다.  
 사용된 언어는 Bash이며, pinctrl 명령어를 사용해 GPIO 핀의 출력 상태를 조절합니다.
 
+![](LED_Domino_Mission.png)
+
 ---
 
 ### 📋 주요 기능 요약
@@ -13,6 +15,10 @@
 - ✅ `GPIO 17`, `27`, `22`, `5`번 핀을 사용하여 총 4개의 LED를 제어합니다.
 
 ---
+
+### 회로 구성(PinMap)
+
+![](LED_Domino_PinMap)
 
 ### 🔧 사용된 GPIO 핀 설정
 
@@ -27,19 +33,29 @@
 
 ### 🧾 코드 전체 설명
 
-```bash
-#!/usr/bin/bash  # Bash 인터프리터 사용 명시
+```
+#!/usr/bin/bash
+# ----------------------------
+# LED 도미노 점등 스크립트
+# - Raspberry Pi GPIO 사용
+# - 각 핀의 LED를 도미노처럼 순차적으로 점등
+# - Ctrl+C 입력 시 LED OFF 후 안전 종료
+# ----------------------------
 
-# GPIO 핀 설정 (LED 순서대로 지정)
-gpio0=17
-gpio1=27
-gpio2=22
-gpio3=5
+# ✅ 1. GPIO 핀 번호 설정
+# 사용할 GPIO 핀들을 각각 변수로 선언합니다.
+# 아래는 총 4개의 LED에 해당하는 핀 번호입니다.
+gpio0=17  # 첫 번째 LED에 연결된 GPIO
+gpio1=27  # 두 번째 LED에 연결된 GPIO
+gpio2=22  # 세 번째 LED에 연결된 GPIO
+gpio3=5   # 네 번째 LED에 연결된 GPIO
 
-# 배열로 핀 묶기 (반복문 처리 용이)
+# ✅ 2. 배열로 핀 묶기
+# 위에서 선언한 핀들을 배열로 묶어 반복문 처리에 사용합니다.
 gpios=($gpio0 $gpio1 $gpio2 $gpio3)
 
-# 모든 핀 출력 모드로 초기화
+# ✅ 3. 핀을 출력 모드로 설정하는 함수
+# 모든 핀을 출력 모드(op)로 전환합니다.
 initialize_pins() {
     for pin in "${gpios[@]}"; do
         pinctrl set "$pin" op || {
@@ -49,36 +65,42 @@ initialize_pins() {
     done
 }
 
-# 종료 시 모든 핀 OFF 처리
+# ✅ 4. 종료 시 호출되는 함수
+# Ctrl+C 등의 종료 시그널이 발생하면 모든 핀을 LOW(dl)로 설정하고 종료합니다.
 turn_off_all() {
     for pin in "${gpios[@]}"; do
-        pinctrl set "$pin" dl  # LOW로 설정
+        pinctrl set "$pin" dl  # LED OFF
     done
     echo "LED OFF 후 종료합니다."
     exit 0
 }
 
-# 루프 내에서 사용하는 LED OFF 함수 (종료는 아님)
+# ✅ 5. 루프 내에서 반복적으로 호출되는 LED OFF 함수
+# 각 반복마다 이전 LED를 끄기 위해 모든 핀을 LOW(dl) 상태로 만듭니다.
 turn_off_leds() {
     for pin in "${gpios[@]}"; do
-        pinctrl set "$pin" dl
+        pinctrl set "$pin" dl  # 모든 LED 끄기
     done
 }
 
-# Ctrl+C 또는 SIGTERM 시 종료 핸들러 등록
+# ✅ 6. 종료 신호(Ctrl+C 등) 감지
+# SIGINT(Ctrl+C), SIGTERM 등이 발생하면 turn_off_all 함수가 호출되어 LED를 끄고 종료합니다.
 trap turn_off_all SIGINT SIGTERM
 
-# 핀 초기화
+# ✅ 7. 실행 전 핀 초기화
 initialize_pins
 
-# 도미노처럼 LED를 순차적으로 켜는 무한 루프
+# ✅ 8. 도미노 LED 점등 무한 루프
+# 배열의 각 핀에 대해 순차적으로 하나만 LED를 켜고, 1초 대기 후 다음 LED를 점등합니다.
+# 이 과정을 무한 반복합니다.
 while true; do
     for i in "${!gpios[@]}"; do
-        turn_off_leds                      # 현재 모든 LED OFF
-        pinctrl set "${gpios[$i]}" dh     # 해당 핀만 ON
-        sleep 1                            # 1초 대기
+        turn_off_leds                     # 현재 모든 LED 끄기
+        pinctrl set "${gpios[$i]}" dh     # 해당 핀만 HIGH → LED ON
+        sleep 1                           # 1초 대기 후 다음 LED
     done
 done
+
 ```
 
 ---
