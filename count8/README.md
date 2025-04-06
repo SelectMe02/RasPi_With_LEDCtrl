@@ -1,4 +1,7 @@
 # Mission B - 3 Bit LED Counter  
+#### Youtube Link
+https://www.youtube.com/watch?v=cRm6VnBgYdk
+
 세 개의 LED를 이진수 형태로 제어해서, 0부터 7까지의 값을 1sec 간격으로 반복적으로 표현하는 것입니다.
 
 즉, 000부터 111까지, 3비트 이진수 카운터를 LED로 구현하는 과제입니다.
