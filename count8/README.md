@@ -40,7 +40,9 @@ Bash 스크립트(`3_Bit_Counter.sh`)를 작성하여 3개의 LED를 통해 0부
 
 ---
 
-## 🔌 회로 구성 설명
+## 🔌 회로 구성 설명 & PinMap
+
+![](../Images/3_Bits_PinMap.jpg)
 
 - 각 LED는 **330Ω 저항**을 거쳐 브레드보드의 **GND에 연결**
 - Raspberry Pi의 GPIO 핀이 **HIGH(dh)** 상태가 되면 전류가 흐르며 LED가 점등됨
