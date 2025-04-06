@@ -2,7 +2,7 @@
 세 개의 LED를 이진수 형태로 제어해서, 0부터 7까지의 값을 반복적으로 표현하는 것입니다.
 즉, 000부터 111까지, 3비트 이진수 카운터를 LED로 구현하는 과제입니다.
 
-![Assignment](Images/3_Bits_Counter_Mission.png)
+![](Images/3_Bits_Counter_Mission.png)
 
 ---
 
