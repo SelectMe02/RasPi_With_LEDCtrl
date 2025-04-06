@@ -1,5 +1,8 @@
 ## 💡 Mission A - LED 도미노 과제
 
+#### Youtube Link
+https://www.youtube.com/watch?v=iAdeRDD6hqY
+
 본 스크립트는 Raspberry Pi의 GPIO 핀을 제어하여 LED를 도미노처럼 순차적으로 점등하는 과제입니다.  
 사용된 언어는 Bash이며, pinctrl 명령어를 사용해 GPIO 핀의 출력 상태를 조절합니다.
 
