@@ -134,6 +134,6 @@ while true; do
         # 6-3. 1초 대기 후 다음 숫자로
         sleep 1
     done
-done
+done```
 
 
