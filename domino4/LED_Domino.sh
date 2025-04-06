@@ -1,49 +1,51 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
 
-# GPIO 핀 번호 설정
-gpio_bit0=17  # LSB (1의 자리)
-gpio_bit1=27  # Middle bit (2의 자리)
-gpio_bit2=22  # MSB (4의 자리)
+# GPIO 핀 설정
+gpio0=17
+gpio1=27
+gpio2=22
+gpio3=5
 
-# GPIO 핀 출력 모드로 설정
+# 배열로 핀 묶기
+gpios=($gpio0 $gpio1 $gpio2 $gpio3)
+
+# 핀 출력 모드로 설정
 initialize_pins() {
-    for pin in $gpio_bit0 $gpio_bit1 $gpio_bit2; do
+    for pin in "${gpios[@]}"; do
         pinctrl set "$pin" op || {
             echo "[ERROR] GPIO $pin 출력 모드 설정 실패"
             exit 1
         }
     done
 }
-# 종료 시 LED OFF 처리
-stop_to_ctrlC() {
-    echo "LED 끄는 중..."
-    pinctrl set $gpio_bit0 dl
-    pinctrl set $gpio_bit1 dl
-    pinctrl set $gpio_bit2 dl
+
+# 모든 핀 OFF (종료 시)
+turn_off_all() {
+    for pin in "${gpios[@]}"; do
+        pinctrl set "$pin" dl
+    done
+    echo "LED OFF 후 종료합니다."
     exit 0
 }
 
-# 종료 신호 감지
-trap stop_to_ctrlC SIGINT SIGTERM
+# 루프 내부에서 쓸 LED OFF 함수 (종료 안 함)
+turn_off_leds() {
+    for pin in "${gpios[@]}"; do
+        pinctrl set "$pin" dl
+    done
+}
+
+# 종료 시 LED OFF
+trap turn_off_all SIGINT SIGTERM
 
 # 핀 초기화
 initialize_pins
 
-# 무한 루프: 0부터 7까지 반복하며 3비트 LED 제어
+# 무한 루프: 도미노처럼 LED 하나씩 켜기
 while true; do
-    for value in {0..7}; do
-        # 비트 분해 (비트 시프트 & 비트 AND 연산 사용)
-        bit0=$(( (value >> 0) & 1 ))
-        bit1=$(( (value >> 1) & 1 ))
-        bit2=$(( (value >> 2) & 1 ))
-
-        # LED 제어
-        pinctrl set $gpio_bit0 $( [ $bit0 -eq 1 ] && echo dh || echo dl )
-        pinctrl set $gpio_bit1 $( [ $bit1 -eq 1 ] && echo dh || echo dl )
-        pinctrl set $gpio_bit2 $( [ $bit2 -eq 1 ] && echo dh || echo dl )
-
-        # 1초 대기
+    for i in "${!gpios[@]}"; do
+        turn_off_leds                      # 현재 반복에서 모든 LED 끄고
+        pinctrl set "${gpios[$i]}" dh      # 해당 LED만 켜기
         sleep 1
     done
 done
-
