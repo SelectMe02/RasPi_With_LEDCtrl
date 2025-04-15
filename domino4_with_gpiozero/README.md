@@ -1,4 +1,66 @@
+## Youtube Link
 
+
+## 📘 개요
+
+![LED_Domino_Mission](../Images/LED_Domino_Mission.png)
+
+이 프로젝트는 **도미노 방식으로 LED를 순서대로 점등**하는 Raspberry Pi GPIO 제어 과제입니다.  
+Python을 이용해 4개의 LED를 GPIO 핀에 연결하고, **1초 간격으로 LED를 하나씩 순차적으로 켜는 방식**을 구현합니다.
+
+---
+
+## 💡 프로젝트 설명
+
+이 프로젝트는 **Raspberry Pi의 GPIO 핀**과 **gpiozero 라이브러리**를 사용하여  
+**4개의 LED를 도미노처럼 순서대로 점등**하고 다시 반복하는 시스템입니다.  
+스크립트를 실행하면 매번 하나의 LED만 켜지며, 나머지 LED는 꺼집니다.  
+**1초 간격으로 다음 LED로 이동**하면서 LED가 순차적으로 도는 모습을 구현합니다.
+
+---
+
+## ✨ 주요 기능
+
+- 🔁 **LED 도미노 순차 점등**
+- 🧠 **1초 간격 자동 전환**
+- 🔌 **GPIO 제어를 위한 gpiozero 사용**
+- 💥 **Ctrl+C 종료 시 모든 LED OFF 처리**
+
+---
+
+## 🛠️ 기술 구성
+
+- **Raspberry Pi GPIO 핀 제어**
+- **Python + gpiozero 라이브러리**
+- **time.sleep을 이용한 주기 제어**
+- **signal 모듈을 통한 안전한 종료 처리**
+
+---
+
+## 📍 핀 구성 및 역할
+
+| 핀 번호  | 역할            | 설명                          |
+|----------|-----------------|-------------------------------|
+| GPIO 17  | 첫 번째 LED      | 도미노의 시작 LED              |
+| GPIO 27  | 두 번째 LED     | 중간 LED                       |
+| GPIO 22  | 세 번째 LED     | 중간 LED                       |
+| GPIO 5   | 네 번째 LED     | 도미노의 마지막 LED           |
+
+![LED_Domino_PinMap](../Images/3_Bits_PinMap.jpg)
+
+---
+
+## ✅ 예시 작동 원리
+
+| 시점         | 점등된 LED 위치 | 설명                         |
+|--------------|------------------|------------------------------|
+| 첫 1초        | GPIO 17 (1번째)  | 첫 번째 LED ON               |
+| 다음 1초      | GPIO 27 (2번째)  | 두 번째 LED ON              |
+| 다음 1초      | GPIO 22 (3번째)  | 세 번째 LED ON              |
+| 다음 1초      | GPIO 5 (4번째)   | 네 번째 LED ON              |
+| 다시 루프     | GPIO 17 (1번째)  | 순환 반복                    |
+
+![Domino_Running_Example](Images/Domino_Running_Example.png
 
 
 
