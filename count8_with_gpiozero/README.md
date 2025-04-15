@@ -50,7 +50,7 @@ Python 스크립트를 실행하면 3개의 LED가 현재 숫자를 **이진수�
 ---
 
 ## PinMap
-![Pin_map](../Images/3_Bits_PinMap.jpg)
+![Pin_map](../Images/LED_Domino_PinMap.jpg)
 
 ---
 ## ✅ 예시로 보는 작동 원리
