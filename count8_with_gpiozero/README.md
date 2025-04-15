@@ -4,7 +4,7 @@
 
 ## 📘 개요
 
-![3비트 카운터 미션 설명](../Images/3_Bits_Counter_Mission.png)
+![Assignment](../Images/3_Bits_Counter_Mission.png)
 
 이 프로젝트는 **3비트 LED 카운터**를 구현하는 과제입니다.  
 Python 스크립트(`3_bit_counter.py`)를 이용하여 **0부터 7까지의 숫자**를 **3개의 LED**를 통해 **이진수**로 출력합니다.
