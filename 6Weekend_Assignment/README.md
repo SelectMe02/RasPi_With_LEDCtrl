@@ -4,6 +4,16 @@
 
 ---
 
+## 라이브러리 및 LED & GPIO 핀 설정
+
+`from gpiozero import LED, Button  # gpiozero 라이브러리에서 LED와 Button 클래스 임포트
+from time import sleep            # 시간 지연을 위한 sleep 함수 임포트
+
+button = Button(25)               # GPIO 25번 핀에 연결된 버튼 객체 생성 (입력 핀)
+leds = [LED(pin) for pin in [7, 8, 16, 20]]  # GPIO 7, 8, 16, 20번 핀에 연결된 4개의 LED 객체 리스트 생성
+`
+---
+
 ## 💡 버튼 기반 GPIO LED 제어 예제 모음
 
 이 문서는 Raspberry Pi와 `gpiozero` 라이브러리를 사용하여 구현한 4가지 버튼 기반 LED 제어 예제를 설명합니다. 각 코드는 버튼 입력을 활용해 다양한 방식으로 LED를 점등하는 기능을 보여줍니다.
