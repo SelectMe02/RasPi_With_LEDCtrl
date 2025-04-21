@@ -6,12 +6,13 @@
 
 ## 라이브러리 및 LED & GPIO 핀 설정
 
-`from gpiozero import LED, Button  # gpiozero 라이브러리에서 LED와 Button 클래스 임포트
+```
+from gpiozero import LED, Button  # gpiozero 라이브러리에서 LED와 Button 클래스 임포트
 from time import sleep            # 시간 지연을 위한 sleep 함수 임포트
 
 button = Button(25)               # GPIO 25번 핀에 연결된 버튼 객체 생성 (입력 핀)
 leds = [LED(pin) for pin in [7, 8, 16, 20]]  # GPIO 7, 8, 16, 20번 핀에 연결된 4개의 LED 객체 리스트 생성
-`
+```
 ---
 
 ## 💡 버튼 기반 GPIO LED 제어 예제 모음
